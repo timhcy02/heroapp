@@ -13,38 +13,38 @@ import {
 } from 'react-native';
 import i18 from 'i18';
 import { getHorizontalResp } from 'Responsive';
+import { Icon } from 'react-native-elements'
 
-export default class SearchBar extends Component {
+export default class Content extends Component {
 
     constructor(props) {
 		super(props);
 
 		this.state = {
-            pickerData: []
         }
            
     }
 
-
   render() {
-
-
+    let {props} = this;
     return (
-
-        
-      <View>
-          <Text></Text>
+      <View style={{flexDirection:'row',paddingVertical:3}}>
+        <Text style={styles.title}>{props.title+": "}</Text>
+        <Text style={styles.content}>{props.content}</Text>
       </View>
-
-              
-            
-
     );
   }
 }
 
 const styles = StyleSheet.create({
-
+  title:{
+    fontSize:16,
+    fontWeight:'bold'
+  },
+  content:{
+    fontSize:16,
+    flexShrink:1
+  }
 });
 
-module.exports = SearchBar;
+module.exports = Content;

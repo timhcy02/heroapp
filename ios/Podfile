@@ -33,7 +33,7 @@ target 'heroapp' do
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'heroappTests' do
     inherit! :search_paths
@@ -46,6 +46,8 @@ target 'heroapp' do
       "_initializeModules:(NSArray<id<RCTBridgeModule>> *)modules", "_initializeModules:(NSArray<Class> *)modules")
     find_and_replace("../node_modules/react-native/ReactCommon/turbomodule/core/platform/ios/RCTTurboModuleManager.mm",
        "RCTBridgeModuleNameForClass(module))", "RCTBridgeModuleNameForClass(Class(module)))")
+    find_and_replace("../node_modules/react-native/Libraries/Image/RCTUIImageViewAnimated.m",
+        "_currentFrame.CGImage;","_currentFrame.CGImage ;} else { [super displayLayer:layer];")
   end
 
   use_native_modules!

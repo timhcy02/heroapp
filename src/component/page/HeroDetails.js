@@ -13,6 +13,7 @@ const screenHeight = Dimensions.get('window').height;
 import { getHorizontalResp } from 'Responsive';
 import i18 from 'i18';
 import { connect } from 'react-redux';
+import {Header,HeroAppearance,HeroBio,HeroConnection,HeroPower,HeroWork,Content} from '../item';
 
 export default class HeroDetails extends Component {
 
@@ -20,50 +21,69 @@ export default class HeroDetails extends Component {
 		super(props);
 
 		this.state = {
-
+      heroInfo:{}
 		};
 	}
 
+  componentDidMount(){
+    let {props} = this;
+    this.setState({heroInfo:props.navigation.state.params.info})
+  }
 
   render() {
     let { props } = this;
-
+    let heroInfo = props.navigation.state.params.info;
     return (
 
-    <View style={styles.container}>
-      <Text>Testing</Text>
-    </View>        
+    <ScrollView style={styles.container}>
+      <Header onGoBack={()=>{props.navigation.goBack()}}/>
+      <View style={[styles.container,{padding:10}]}>
+        <View style={{flexDirection:'row'}}>
+          <Image source={{uri:heroInfo.image.url}} style={styles.avatar}/>
+          <View style={{paddingHorizontal:5}}>
+            <Content title={"Name"} content={heroInfo.name}/>    
+          </View>
+          
+        </View>
+
+        <HeroPower data={heroInfo.powerstats}/>
+        <HeroBio data={heroInfo.biography}/>
+        <HeroAppearance data={heroInfo.appearance}/>
+        <HeroWork data={heroInfo.work}/>
+        <HeroConnection data={heroInfo.connections}/>
+      </View>
+    </ScrollView>        
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container:{flex:1},
+  container:{
+    flex:1
+  },
+  avatar:{
+    width:100,
+    height:100,
+    resizeMode:'cover'
+  },
 });
 
 
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-        user: state.auth.user,
-        language: state.setting.language,
-        measurementSound: state.setting.measurementSound,
-        currentUser: state.auth.currentUser,
-        darkMode:state.setting.darkMode,
-        colorSet:state.setting.colorSet,
+      savedHeroes: state.hero.savedHeroes,
+      savedCarousel: state.setting.savedCarousel,
 	}
 }
 
 import { 
-  Login as loginMapDispatchToProps,
-	Others as othersMapDispatchToProps
+	Hero as heroMapDispatchToProps
 } from 'Controller';
 
-let othersProps;
-let loginProps;
+let heroProps;
 
 module.exports = connect(mapStateToProps, (dispatch, ownProps)=>{
-  loginProps = loginMapDispatchToProps(dispatch, ownProps)
-	othersProps = othersMapDispatchToProps(dispatch, ownProps)
-	return {...othersProps, ...loginProps};
+	heroProps = heroMapDispatchToProps(dispatch, ownProps)
+	return {...heroProps};
 })(HeroDetails);

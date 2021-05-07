@@ -13,8 +13,9 @@ import {
 } from 'react-native';
 import i18 from 'i18';
 import { getHorizontalResp } from 'Responsive';
+import { Icon } from 'react-native-elements'
 
-export default class Heading extends Component {
+export default class SearchBar extends Component {
 
     constructor(props) {
 		super(props);
@@ -47,6 +48,15 @@ export default class Heading extends Component {
             </View>
           </TouchableOpacity>
         </View>
+        <View style={styles.orderButtonView}>
+          <TouchableOpacity onPress={()=>{props.onReorderPress()}}>
+            <Icon
+              name={props.sorting == 'asc' ?'sort-up':'sort-down'}
+              type='font-awesome-5'
+              color='#000'
+            />
+          </TouchableOpacity>
+        </View>
     </View>
 
               
@@ -60,18 +70,24 @@ const styles = StyleSheet.create({
   searchBar:{
     height:50,
     width:'100%',
-    backgroundColor:'#ddd',
+    backgroundColor:'#e9ecef',
     flexDirection:'row',
     justifyContent:'space-between',
     paddingHorizontal:10
   },
   searchBoxView:{
-    flex:3,
+    flex:5,
     alignItems:'center',
     justifyContent:'center',
 
   },
   searchButtonView:{
+    flex:2,
+    alignItems:'center',
+    justifyContent:'center',
+
+  },
+  orderButtonView:{
     flex:1,
     alignItems:'center',
     justifyContent:'center',
@@ -98,4 +114,4 @@ const styles = StyleSheet.create({
 
 });
 
-module.exports = Heading;
+module.exports = SearchBar;

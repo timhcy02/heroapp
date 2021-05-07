@@ -3,8 +3,12 @@
  */
 
 module.exports = {
-
-	Picker: require('./Picker.js'),
-	DatetimePicker: require('./DatetimePicker.js'),
 	SearchBar: require('./SearchBar.js'),
+	Header: require('./Header.js'),
+	HeroAppearance: require('./HeroAppearance.js'),
+	HeroBio: require('./HeroBio.js'),
+	HeroConnection: require('./HeroConnection.js'),
+	HeroPower: require('./HeroPower.js'),
+	HeroWork: require('./HeroWork.js'),
+	Content: require('./Content.js')
 }
