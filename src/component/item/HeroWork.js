@@ -15,7 +15,7 @@ import i18 from 'i18';
 import { getHorizontalResp } from 'Responsive';
 import { Icon } from 'react-native-elements'
 import Content from './Content'
-export default class HeroWork extends Component {
+export default class HeroCarousel extends Component {
 
     constructor(props) {
 		super(props);
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
 
 });
 
-module.exports = HeroWork;
+module.exports = HeroCarousel;

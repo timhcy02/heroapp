@@ -13,8 +13,9 @@ const screenHeight = Dimensions.get('window').height;
 import { getHorizontalResp } from 'Responsive';
 import i18 from 'i18';
 import { connect } from 'react-redux';
-import {SearchBar} from '../item'
+import {SearchBar, HeroCarousel} from '../item'
 import { Icon } from 'react-native-elements'
+var _ = require('lodash');
 
 export default class Hero extends Component {
 
@@ -32,12 +33,18 @@ export default class Hero extends Component {
 
   }
 
+  componentDidUpdate(prevProps){
+   console.log(this.props.savedCarousel,prevProps.savedCarousel)
+
+  }
+
   render() {
     let { props } = this;
-
+    let { savedHeroes, savedCarousel } = props;
     return (
 
     <View style={styles.container}>
+      <HeroCarousel data={savedCarousel}/>
       <SearchBar sorting={this.state.sorting} onPress={(text)=>{
         props.getHero(text)
         .then((result)=>{
@@ -72,21 +79,45 @@ export default class Hero extends Component {
               <FlatList
               data={this.state.heroList}
               renderItem={({ item }) => (
-                <TouchableOpacity onPress={()=>{props.navigation.navigate('HeroDetails',{info:item})}}>
-                  <View style={styles.heroItem}>
-                    <View style={{flex:2,paddingRight:10}}>
-                      <Image source={{uri:item.image.url}} style={styles.avatar}/>
-                    </View>
-                    <View style={{flex:4}}>
-                      <Text style={styles.displayText}>ID: {item.id}</Text>
-                      <Text style={styles.displayText}>Name: {item.name}</Text>
-                    </View>
-                    <View>
-
-                    </View>
+                <View style={styles.heroItem}>
+                  <View style={{flex:3}}>
+                    <TouchableOpacity onPress={()=>{props.navigation.navigate('HeroDetails',{info:item})}}>
+                      <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                        <View style={{paddingRight:10}}>
+                          <Image source={{uri:item.image.url}} style={styles.avatar}/>
+                        </View>
+                        <View style={{flex:1}}>
+                          <Text style={styles.displayText}>ID: {item.id}</Text>
+                          <Text style={styles.displayText}>Name: {item.name}</Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
                   </View>
-                </TouchableOpacity>
-                  
+                  <View style={{flexDirection:'row',flex:1,justifyContent:'center',alignItems:'center'}}>
+                    <Icon
+                      containerStyle={{paddingHorizontal:10}}
+                      name={'heart'}
+                      type='font-awesome-5'
+                      color={savedHeroes.includes(item.id)?'#fb3640':'#000'}
+                      solid={savedHeroes.includes(item.id)?true:false}
+                      onPress={()=>{props.updateSavedHeroes(item.id)}}
+                    />
+                    <Icon
+                      containerStyle={{paddingHorizontal:10}}
+                      name={_.findIndex(savedCarousel, function(o) { return o.id == item.id; })>-1?'minus':'plus'}
+                      type='font-awesome-5'
+                      color='#000'
+                      onPress={()=>{
+                        let data = {
+                          id: item.id,
+                          name: item.name,
+                          image: item.image.url
+                        }
+                        props.updateSavedCarousel(data)
+                      }}
+                    />
+                  </View>
+                </View>  
               )}
               keyExtractor={item => item.id}
               extraData={this.state}
@@ -139,7 +170,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
 	return {
       savedHeroes: state.hero.savedHeroes,
-      savedCarousel: state.setting.savedCarousel,
+      savedCarousel: state.hero.savedCarousel,
 	}
 }
 

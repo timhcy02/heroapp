@@ -10,5 +10,6 @@ module.exports = {
 	HeroConnection: require('./HeroConnection.js'),
 	HeroPower: require('./HeroPower.js'),
 	HeroWork: require('./HeroWork.js'),
-	Content: require('./Content.js')
+	Content: require('./Content.js'),
+	HeroCarousel: require('./HeroCarousel.js')
 }

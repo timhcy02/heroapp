@@ -14,56 +14,6 @@ const METHOD_DATA = [{
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-
-        sendPushToken:  (token) => {
-            dispatch(Actions.loading.api('sendPushToken'));
-            return Server.sendPushToken(token).then(resp => {	
-
-                console.log("sendPushToken", resp)
-                dispatch(Actions.loading.apiSuccess('sendPushToken'))
-                if(!resp.internetError) {
-                    if(resp.message == 'The request timed out.') {
-                        message = i18['Server Busy']
-                        dispatch(Actions.main.updateMessageAlert(message));
-                        return false
-                    }
-                    return resp
-                }else {
-                    return false
-                }
-                // return true;
-            })
-            .catch(error => {
-                console.warn('sendPushToken error',error);
-                Alert.alert(
-                    '',
-                    error,
-                    [
-                        { text: 'OK', onPress: () => console.log('OK Pressed') },
-                    ]
-                )
-                dispatch(Actions.loading.apiSuccess('sendPushToken'));
-                return false;
-            })
-        },
-
-        loadStart: (t) => {
-                console.log('Load Start')
-            if(t){
-                console.log('Load Start',t)
-            }
-            dispatch(Actions.loading.api('Load'));
-        },
-        loadEnd: (t) => {
-            console.log('Load End')
-            if(t){
-                console.log('Load End',t)
-            }
-            dispatch(Actions.loading.apiSuccess('Load'))
-        },
-        dismissAllLoading: () => {
-            dispatch(Actions.loading.dismissAllLoading());
-        },
         getHero:(text) => {
             dispatch(Actions.loading.api('getHero'));
             return Server.getHero(text).then(resp => {	
@@ -89,6 +39,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 dispatch(Actions.loading.apiSuccess('getHero'));
                 return false;
             })
+        },
+        updateSavedHeroes:(id) =>{
+            dispatch(Actions.hero.updateSavedHeroes(id));
+        },
+        updateSavedCarousel:(data) =>{
+            dispatch(Actions.hero.updateSavedCarousel(data));
         }
     }
 }

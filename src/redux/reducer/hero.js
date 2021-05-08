@@ -2,7 +2,7 @@ import { createReducer } from 'reduxsauce'
 import { REHYDRATE } from 'redux-persist/constants'
 import Server from 'Server'
 import moment from 'moment';
-
+var _ = require('lodash');
 const { Types } = require('../action/hero');
 
 export const INITIAL_STATE = {
@@ -11,11 +11,31 @@ export const INITIAL_STATE = {
 }
 
 export const updateSavedHeroes = (state = INITIAL_STATE, action) => {
-	return { ...state, savedHeroes: action.data };
+	//console.log("action.data ",action.data )
+	let currentSavedHeroes = state.savedHeroes;
+	if(currentSavedHeroes.includes(action.data)){
+		let ind = currentSavedHeroes.indexOf(action.data)
+		currentSavedHeroes.splice(ind,1);
+	}
+	else{
+		currentSavedHeroes.push(action.data)
+	}
+	//console.log("currentSavedHeroes",currentSavedHeroes)
+	return { ...state, savedHeroes: [...currentSavedHeroes] };
 }
 
 export const updateSavedCarousel = (state = INITIAL_STATE, action) => {
-	return { ...state, savedCarousel: action.data };
+	console.log("action.data ",action.data )
+	let currentSavedCarousel = [...state.savedCarousel];
+	let ind = _.findIndex(currentSavedCarousel, function(o) { return o.id == action.data.id; })
+	if(ind>-1){
+		currentSavedCarousel.splice(ind,1);
+	}
+	else{
+		currentSavedCarousel.push(action.data)
+	}
+	console.log("currentSavedCarousel",currentSavedCarousel)
+	return { ...state, savedCarousel: [...currentSavedCarousel]};
 }
 
 export const HANDLERS = {
