@@ -32,7 +32,14 @@ export const updateSavedCarousel = (state = INITIAL_STATE, action) => {
 		currentSavedCarousel.splice(ind,1);
 	}
 	else{
-		currentSavedCarousel.push(action.data)
+		if(currentSavedCarousel.length<8){
+			currentSavedCarousel.push(action.data)	
+		}
+		else{
+			alert("The maximum length of carousel is 8.\nPlease remove hero before add new hero.")
+			return { ...state};
+		}
+		
 	}
 	console.log("currentSavedCarousel",currentSavedCarousel)
 	return { ...state, savedCarousel: [...currentSavedCarousel]};

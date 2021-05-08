@@ -4,10 +4,8 @@
 
 module.exports = {
 	SERVER_URL: "https://superheroapi.com/api/10223143163439953/",
-	SERVER_STROAGE_URL: "",
-	API_KEY: "",
-	DEBUG: true,
-	OFFLINE_MODE: true,
-	BUNDLE_UPDATE_TIME: "20190204",
-	VERSION:"1.0"
+	BUNDLE_UPDATE_TIME: "20210508",
+	VERSION:"1.0",
+	ENV:"UAT"
+	//ENV:"PROD"
 }

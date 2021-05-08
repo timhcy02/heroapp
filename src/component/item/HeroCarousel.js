@@ -14,7 +14,6 @@ import {
 import i18 from 'i18';
 import { getHorizontalResp } from 'Responsive';
 import Content from './Content'
-import Carousel from 'react-native-snap-carousel';
 import { Icon } from 'react-native-elements'
 import Swiper from 'react-native-swiper'
 
@@ -47,7 +46,7 @@ export default class HeroCarousel extends Component {
         {
           data.length>0?
           <View style={styles.intro}>
-            <Swiper showsButtons={false} autoplay={true} showsPagination={false}>
+            <Swiper showsButtons={false} autoplay={true} showsPagination={false} loop={true} autoplayTimeout={5}>
               {
                 data.map((hero)=>{
                   return(
