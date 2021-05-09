@@ -56,22 +56,10 @@ class App extends Component {
 	}
 
 	componentWillReceiveProps (newProps) {
-		let { props } = this;
-		let { user } = props;
-		console.log('Checking',props.user,props.rememberPassword,newProps.user)
-		// console.log("stopShowingWelcome", globalVal.stopShowingWelcome)
 
-		if(!user && newProps.user && !globalVal.stopShowingWelcome) {
-			// this.welcomeAlert(newProps.user);
-		}
-
-		if(newProps.user && newProps.rememberPassword){
-			
-		}
 	}
 
 	componentWillMount(){
-
 		
 	}
 
@@ -85,21 +73,17 @@ class App extends Component {
 		this.setState({appState: nextAppState});
 	}
 
-	setLoading(isLoading) {
-
-		if (this.state.loading != isLoading) {
-			this.setState({
-				loading: isLoading
-			});
-		}
-	}
-
 	render() {
 		let { props } = this;
 		let { loading, passcode,colorSet } = this.props;
 		return (
 			<SafeAreaView style={{ flex: 1,}}>
 				<AppNavigator />
+				{
+					loading ? (
+					<Loading/>
+					) : null
+				}
 			</SafeAreaView>
 		)
 	}
@@ -113,14 +97,7 @@ const mapStateToProps = (state, ownProps) => {
 		
 
 	return {
-		loading: (state.loading.api.length > 0 || state.loading.storage.length > 0),
-		progress: state.progressBar,
-		cameraOpenned: state.setting.cameraOpenned,
-		user: state.auth.user,
-		rememberPassword:state.auth.rememberPassword,
-		passcode: state.setting.passcode,
-		enableLock: state.setting.enableLock,
-		colorSet:state.setting.colorSet,
+		loading: (state.loading.api.length > 0 || state.loading.storage.length > 0)
 	}
 }
 
@@ -132,9 +109,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		cancelProgress: ()=>{
 			dispatch(Actions.progressBar.cancel());			
 		},
-		closeLockPasscodeStatus: () => {
-			dispatch(Actions.setting.lockPasscodeStatus('', false));	
-		}
 	}
 }
 

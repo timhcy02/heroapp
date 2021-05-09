@@ -24,8 +24,10 @@ export default class Hero extends Component {
 
 		this.state = {
       heroList:[],
+      displayHeroList:[],
       message:'',
-      sorting:'asc'
+      sorting:'asc',
+      currentDisplaySize:10
 		};
 	}
 
@@ -36,6 +38,20 @@ export default class Hero extends Component {
   componentDidUpdate(prevProps){
    console.log(this.props.savedCarousel,prevProps.savedCarousel)
 
+  }
+
+  getData(){
+    if(this.state.displayHeroList.length<this.state.currentDisplaySize){
+      return
+    }
+    else{
+      if(this.state.heroList.length>this.state.currentDisplaySize){
+        this.setState({
+          displayHeroList:_.take(this.state.heroList,this.state.currentDisplaySize+10),
+          currentDisplaySize:this.state.currentDisplaySize+10
+        })
+      }
+    }
   }
 
   render() {
@@ -50,7 +66,8 @@ export default class Hero extends Component {
         .then((result)=>{
           console.log(result)
           if(result){
-            this.setState({heroList:result,sorting:'asc'})
+            let displayHeroList = _.take(result,this.state.currentDisplaySize)
+            this.setState({heroList:result,displayHeroList:displayHeroList,sorting:'asc'})
           }
           else{
             this.setState({heroList:[],sorting:'asc',message:'Cannot search hero, please try again'})
@@ -75,9 +92,9 @@ export default class Hero extends Component {
           }
         }}/>
           {
-            this.state.heroList.length>0?
+            this.state.displayHeroList.length>0?
               <FlatList
-              data={this.state.heroList}
+              data={this.state.displayHeroList}
               renderItem={({ item }) => (
                 <View style={styles.heroItem}>
                   <View style={{flex:3}}>
@@ -121,6 +138,8 @@ export default class Hero extends Component {
               )}
               keyExtractor={item => item.id}
               extraData={this.state}
+              onEndReached={()=>{this.getData()}}
+              onEndReachedThreshold={0.5}
               />
             :
             <View style={styles.searchReminder}>
@@ -170,7 +189,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
 	return {
       savedHeroes: state.hero.savedHeroes,
-      savedCarousel: state.hero.savedCarousel,
+      savedCarousel: state.hero.savedCarousel, 
 	}
 }
 
