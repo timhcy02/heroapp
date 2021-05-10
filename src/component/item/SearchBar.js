@@ -68,7 +68,7 @@ export default class SearchBar extends Component {
 
 const styles = StyleSheet.create({
   searchBar:{
-    height:50,
+    minHeight:50,
     width:'100%',
     backgroundColor:'#e9ecef',
     flexDirection:'row',
@@ -94,11 +94,12 @@ const styles = StyleSheet.create({
 
   },
   searchBox:{
-    height:30,
+    minHeight:30,
     width:'100%',
     backgroundColor:'#fff',
     borderRadius:5,
-    paddingLeft:10
+    paddingLeft:10,
+    marginVertical:5
   },
   searchButton:{
     backgroundColor:'#2a9df4',
